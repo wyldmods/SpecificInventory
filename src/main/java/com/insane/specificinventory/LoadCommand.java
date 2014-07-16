@@ -37,7 +37,6 @@ public class LoadCommand extends CommandBase
         if (icommandsender instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) icommandsender;
             replaceInventory(player);
-
         }
     }
 
