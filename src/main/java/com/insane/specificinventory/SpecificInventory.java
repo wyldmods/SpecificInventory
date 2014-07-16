@@ -25,6 +25,7 @@ public class SpecificInventory {
         ICommandManager server = MinecraftServer.getServer().getCommandManager();
        // ICommandManager command = server.getCommandManager();
         ((ServerCommandManager) server).registerCommand(new SaveCommand());
+        ((ServerCommandManager) server).registerCommand(new LoadCommand());
     }
 }
 
