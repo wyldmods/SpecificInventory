@@ -1,0 +1,14 @@
+si.command.help.main=/si <command> or '/si help <command>' or '/si help' for a list of all commands
+
+si.command.help.save=Saves current inventory to file.
+si.command.help.load=Loads inventory from previous save.
+si.command.help.addrecipe=Saves a custom 1 to 1 recipe, the ingredient being in slot 1 of your hotbar, and the result being in slot 2.
+
+si.command.save.success=Inventory successfully saved.
+si.command.save.fail=Inventory saving failed.
+
+si.command.load.success=Inventory successfully loaded.
+si.command.load.fail=Inventory load failed.
+
+si.command.addrecipe.success=Recipe successfully added and saved.
+si.command.addrecipe.fail=Recipe addition failed.
