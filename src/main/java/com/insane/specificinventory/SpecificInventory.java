@@ -1,24 +1,23 @@
 package com.insane.specificinventory;
 
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.registry.GameRegistry;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
-
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
  * Created by Michael on 15/07/2014.
@@ -42,9 +41,9 @@ public class SpecificInventory
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		saveDat = new File(event.getSuggestedConfigurationFile().getParentFile().getAbsolutePath() + "/" + MODID + "/savedInv.txt");
+		saveDat = new File(event.getSuggestedConfigurationFile().getParentFile().getAbsolutePath() + "/" + MODID + "/savedInv.dat");
 		create(saveDat);
-        recipeDat = new File(event.getSuggestedConfigurationFile().getParentFile().getAbsolutePath() + "/" + MODID + "/savedRecipe.txt");
+        recipeDat = new File(event.getSuggestedConfigurationFile().getParentFile().getAbsolutePath() + "/" + MODID + "/savedRecipe.dat");
         create(recipeDat);
 
         GameRegistry.registerPlayerTracker(new PlayerTracker());
@@ -52,8 +51,15 @@ public class SpecificInventory
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event){
-        // Custom Recipe
-        try  {
+        addRecipe();
+    }
+    
+    /**
+     * Adds custom recipe that was saved to file
+     */
+    public void addRecipe()
+    {
+    	try  {
             NBTTagList list = (NBTTagList) NBTTagList.readNamedTag(new DataInputStream(new FileInputStream(recipeDat)));
             if (list.tagCount()!=0) {
                 for (int i = 0; i < list.tagCount(); i++) {
@@ -74,10 +80,7 @@ public class SpecificInventory
 	public void serverStart(FMLServerStartingEvent event)
 	{
 		ICommandManager server = MinecraftServer.getServer().getCommandManager();
-		// ICommandManager command = server.getCommandManager();
-		((ServerCommandManager) server).registerCommand(new SaveCommand());
-		((ServerCommandManager) server).registerCommand(new LoadCommand());
-        ((ServerCommandManager) server).registerCommand(new SaveRecipeCommand());
+        ((ServerCommandManager) server).registerCommand(new CommandSI());
 	}
 	
 	private void create(File file)
