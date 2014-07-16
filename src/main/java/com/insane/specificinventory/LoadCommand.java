@@ -33,29 +33,30 @@ public class LoadCommand extends CommandBase
 	}
 
 	@Override
-	public void processCommand(ICommandSender icommandsender, String[] astring)
-	{
-		if (icommandsender instanceof EntityPlayer)
-		{
-			EntityPlayer player = (EntityPlayer) icommandsender;
-			player.inventory.clearInventory(-1, -1); // Clears all inv slots
-			try
-			{
-				NBTTagList list = (NBTTagList) NBTTagList.readNamedTag(new DataInputStream(new FileInputStream(SpecificInventory.saveDat)));
-				player.inventory.readFromNBT(list);
-			}
-			catch (IOException error)
-			{
-				error.printStackTrace();
-			}
-			
-			player.addChatMessage("Inventory loaded successfully");
-		}
-	}
+	public void processCommand(ICommandSender icommandsender, String[] astring) {
+        if (icommandsender instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) icommandsender;
+            replaceInventory(player);
+
+        }
+    }
 
 	@Override
 	public int compareTo(Object o)
 	{
 		return 0;
 	}
+
+    public static void replaceInventory(EntityPlayer player) {
+        player.inventory.clearInventory(-1, -1); // Clears all inv slots
+        try  {
+            NBTTagList list = (NBTTagList) NBTTagList.readNamedTag(new DataInputStream(new FileInputStream(SpecificInventory.saveDat)));
+            player.inventory.readFromNBT(list);
+        }
+        catch (IOException error)  {
+            error.printStackTrace();
+        }
+
+        player.addChatMessage("Inventory loaded successfully");
+    }
 }
