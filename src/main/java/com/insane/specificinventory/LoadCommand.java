@@ -1,16 +1,12 @@
 package com.insane.specificinventory;
 
+import java.io.DataInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Scanner;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import net.minecraft.nbt.NBTTagList;
 
 /**
@@ -18,8 +14,6 @@ import net.minecraft.nbt.NBTTagList;
  */
 public class LoadCommand extends CommandBase
 {
-	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
 	@Override
 	public boolean canCommandSenderUseCommand(ICommandSender par1ICommandSender)
 	{
@@ -47,26 +41,8 @@ public class LoadCommand extends CommandBase
 			player.inventory.clearInventory(-1, -1); // Clears all inv slots
 			try
 			{
-				Scanner scan = new Scanner(SpecificInventory.saveDat);
-				String text = "";
-				
-				while (scan.hasNextLine())
-				{
-					String line = scan.nextLine();
-					text += line + "\n";
-				}
-				
-				//ItemStack[] inv = null;
-                NBTTagList inv = null;
-
-				//inv = gson.fromJson(text, new TypeToken<ItemStack[]>(){}.getType());
-                //inv = gson.fromJson(text, new TypeToken<NBTTagList>(){}.getType());
-                inv = gson.fromJson(text, NBTTagList.class);
-
-				//player.inventory.mainInventory = inv;
-                player.inventory.readFromNBT(inv);
-				
-				scan.close();
+				NBTTagList list = (NBTTagList) NBTTagList.readNamedTag(new DataInputStream(new FileInputStream(SpecificInventory.saveDat)));
+				player.inventory.readFromNBT(list);
 			}
 			catch (IOException error)
 			{

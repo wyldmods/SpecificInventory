@@ -1,16 +1,14 @@
 package com.insane.specificinventory;
 
-import java.io.FileWriter;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagList;
 
 /**
@@ -20,7 +18,6 @@ public class SaveCommand extends CommandBase
 {
 
 	public static ItemStack[] inventoryCopy = new ItemStack[36];
-	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	@Override
 	public boolean canCommandSenderUseCommand(ICommandSender par1ICommandSender)
@@ -50,13 +47,13 @@ public class SaveCommand extends CommandBase
 
 			try
 			{
-				FileWriter fw = new FileWriter(SpecificInventory.saveDat);
-
-				String json = gson.toJson(player.inventory.writeToNBT(new NBTTagList()));
-				fw.write(json);
+				DataOutputStream out = new DataOutputStream(new FileOutputStream(SpecificInventory.saveDat));
 				
-				fw.flush();
-				fw.close();
+				NBTTagList list = player.inventory.writeToNBT(new NBTTagList());
+				
+				NBTBase.writeNamedTag(list, out);
+				
+				out.close();
 			}
 			catch (IOException error)
 			{
