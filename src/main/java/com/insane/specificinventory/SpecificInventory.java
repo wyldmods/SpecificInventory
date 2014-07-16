@@ -16,35 +16,50 @@ import java.io.IOException;
  * Created by Michael on 15/07/2014.
  */
 
-@Mod(modid="SpecificInventory", name="Specific Inventory", version="1.0")
+@Mod(modid = SpecificInventory.MODID, name = "Specific Inventory", version = "1.0")
 @NetworkMod(clientSideRequired = true)
-public class SpecificInventory {
-    @Mod.Instance("SpecificInventory")
-    public static SpecificInventory instance;
-    @SidedProxy(clientSide="com.insane.specificinventory.client.ClientProxy", serverSide="com.insane.specificinventory.CommonProxy")
-    public static CommonProxy proxy;
+public class SpecificInventory
+{
+	public static final String MODID = "SpecificInventory";
+	
+	@Mod.Instance("SpecificInventory")
+	public static SpecificInventory instance;
+	@SidedProxy(clientSide = "com.insane.specificinventory.client.ClientProxy", serverSide = "com.insane.specificinventory.CommonProxy")
+	public static CommonProxy proxy;
 
-    public static String directory;
+	public static File saveDat;
 
-    @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        directory = event.getModConfigurationDirectory().toString();
-        File file = new File(event.getModConfigurationDirectory() + "/SpecificInventory.txt");
-        try {
-            file.createNewFile();
-        }
-        catch (IOException e) {
-            System.out.print("Could not create file for Specific Inventory. Reason: ");
-            System.out.println(e);
-        }
-    }
+	@Mod.EventHandler
+	public void preInit(FMLPreInitializationEvent event)
+	{
+		saveDat = new File(event.getSuggestedConfigurationFile().getParentFile().getAbsolutePath() + "/" + MODID + "/savedInv.txt");
+		create(saveDat);
+	}
 
-    @Mod.EventHandler
-    public void serverStart(FMLServerStartingEvent event) {
-        ICommandManager server = MinecraftServer.getServer().getCommandManager();
-       // ICommandManager command = server.getCommandManager();
-        ((ServerCommandManager) server).registerCommand(new SaveCommand());
-        ((ServerCommandManager) server).registerCommand(new LoadCommand());
-    }
+	@Mod.EventHandler
+	public void serverStart(FMLServerStartingEvent event)
+	{
+		ICommandManager server = MinecraftServer.getServer().getCommandManager();
+		// ICommandManager command = server.getCommandManager();
+		((ServerCommandManager) server).registerCommand(new SaveCommand());
+		((ServerCommandManager) server).registerCommand(new LoadCommand());
+	}
+	
+	private void create(File file)
+	{
+		if (!file.exists())
+		{
+			try
+			{
+				file.getParentFile().mkdirs();
+				file.createNewFile();
+				System.out.println(file.getAbsolutePath());
+			}
+			catch (IOException e)
+			{
+				System.out.print("Could not create " + file.getAbsolutePath() + ". Reason: ");
+				System.out.println(e);
+			}
+		}
+	}
 }
-
