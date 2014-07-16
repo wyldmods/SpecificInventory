@@ -10,6 +10,8 @@ import net.minecraft.item.ItemStack;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 
 /**
  * Created by Michael on 15/07/2014.
@@ -50,7 +52,7 @@ public class SaveCommand extends CommandBase
 			{
 				FileWriter fw = new FileWriter(SpecificInventory.saveDat);
 
-				String json = gson.toJson(inventoryCopy);
+				String json = gson.toJson(player.inventory.writeToNBT(new NBTTagList()));
 				fw.write(json);
 				
 				fw.flush();

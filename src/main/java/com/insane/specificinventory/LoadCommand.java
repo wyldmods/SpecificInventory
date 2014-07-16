@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import net.minecraft.nbt.NBTTagList;
 
 /**
  * Created by Michael on 16/07/2014.
@@ -55,11 +56,15 @@ public class LoadCommand extends CommandBase
 					text += line + "\n";
 				}
 				
-				ItemStack[] inv = null;
+				//ItemStack[] inv = null;
+                NBTTagList inv = null;
 
-				inv = gson.fromJson(text, new TypeToken<ItemStack[]>(){}.getType());
+				//inv = gson.fromJson(text, new TypeToken<ItemStack[]>(){}.getType());
+                //inv = gson.fromJson(text, new TypeToken<NBTTagList>(){}.getType());
+                inv = gson.fromJson(text, NBTTagList.class);
 
-				player.inventory.mainInventory = inv;
+				//player.inventory.mainInventory = inv;
+                player.inventory.readFromNBT(inv);
 				
 				scan.close();
 			}
