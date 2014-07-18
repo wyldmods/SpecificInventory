@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
+  "modid": "SpecificInventory",
+  "name": "Specific Inventory",
+  "description": "Start out with a specific set of items - NBT and all!",
+  "version": "1.0",
+  "mcversion": "1.6.4",
   "url": "",
   "updateUrl": "",
-  "authors": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authors": ["Michael Lydeamore", "tterag"],
+  "credits": "Wyld on Twitch for the motivation and idea.",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
