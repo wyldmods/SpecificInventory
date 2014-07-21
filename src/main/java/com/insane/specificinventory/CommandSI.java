@@ -31,7 +31,20 @@ public class CommandSI extends CommandBase
 		return "si";
 	}
 
-	@Override
+    @Override
+    public int getRequiredPermissionLevel()
+    {
+        return 0;
+    }
+
+    @Override
+    public boolean canCommandSenderUseCommand(ICommandSender par1ICommandSender)
+    {
+        return SpecificInventory.canModify;
+    }
+
+
+    @Override
 	public String getCommandUsage(ICommandSender player)
 	{
 		return StatCollector.translateToLocal("si.command.help.main");

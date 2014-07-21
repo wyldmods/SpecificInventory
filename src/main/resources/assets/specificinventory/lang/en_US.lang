@@ -12,3 +12,5 @@ si.command.load.fail=Inventory load failed.
 
 si.command.addrecipe.success=Recipe successfully added and saved.
 si.command.addrecipe.fail=Recipe addition failed.
+
+si.command.cannotmodify=Unable to modify Specific Inventory

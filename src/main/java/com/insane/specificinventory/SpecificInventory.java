@@ -18,6 +18,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.common.Configuration;
 
 /**
  * Created by Michael on 15/07/2014.
@@ -38,6 +39,8 @@ public class SpecificInventory
     public static File recipeDat;
     private ItemStack[] recipeArrayStack = new ItemStack[2];
 
+    public static boolean canModify;
+
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
@@ -47,6 +50,15 @@ public class SpecificInventory
         create(recipeDat);
 
         GameRegistry.registerPlayerTracker(new PlayerTracker());
+
+        //Config
+        File configFile = new File(event.getSuggestedConfigurationFile().getParentFile().getAbsolutePath() + "/" + MODID + "/specificInventory.cfg");
+        create(configFile);
+
+        Configuration config = new Configuration(configFile);
+        config.load();
+        canModify = config.get("canModify", "general", false, "Can modify starting inventory.").getBoolean(false);
+        config.save();
 	}
 
     @Mod.EventHandler
