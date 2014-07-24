@@ -10,12 +10,12 @@ import cpw.mods.fml.common.IPlayerTracker;
 public class PlayerTracker implements IPlayerTracker {
     @Override
     public void onPlayerLogin(EntityPlayer player) {
-        NBTTagCompound entityData = player.getEntityData();
-        NBTTagCompound d;
-        if (!entityData.hasKey(EntityPlayer.PERSISTED_NBT_TAG)) {
+        if (player != null && !player.worldObj.isRemote) {
+            NBTTagCompound entityData = player.getEntityData();
+            NBTTagCompound d;
             d = entityData.getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
-            if (!d.hasKey(SpecificInventory.MODID+"firstSpawn")) { //The tag must have been set by us, so we only need to check existence.
-                d.setBoolean(SpecificInventory.MODID+"firstSpawn", false);
+            if (!d.hasKey(SpecificInventory.MODID + "firstSpawn")) { //The tag must have been set by us, so we only need to check existence.
+                d.setBoolean(SpecificInventory.MODID + "firstSpawn", false);
                 CommandSI.doLoad(player);
                 entityData.setCompoundTag(EntityPlayer.PERSISTED_NBT_TAG, d);
             }
