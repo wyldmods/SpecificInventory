@@ -12,6 +12,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -112,7 +113,11 @@ public class CommandSI extends CommandBase
 			}
 			else if (args[0].equals("load"))
 			{
-				doLoad((EntityPlayer) player);
+                if (SpecificInventory.freshInventory) {
+                    doLoad((EntityPlayer) player);
+                } else {
+                    doLoadWithoutReplace((EntityPlayer) player);
+                }
 			}
 			else if (args[0].equals("addRecipe"))
 			{
@@ -163,6 +168,27 @@ public class CommandSI extends CommandBase
 
 		sendChatMessage(player, "si.command.load.success");
 	}
+
+    public static void doLoadWithoutReplace(EntityPlayer player)
+    {
+        try {
+            NBTTagList list = (NBTTagList) NBTTagList.readNamedTag(new DataInputStream(new FileInputStream(SpecificInventory.saveDat)));
+            InventoryPlayer ghost = new InventoryPlayer(null);
+            ghost.readFromNBT(list);
+
+            for (int i=0; i<36; i++) {
+                if (ghost.mainInventory[i]!=null) {
+                    player.inventory.addItemStackToInventory(ghost.mainInventory[i]);
+                }
+            }
+
+        } catch (IOException error) {
+            sendChatMessage(player, "si.command.load.fail");
+            error.printStackTrace();
+        }
+
+
+    }
 
 	private static void doAddRecipe(EntityPlayer player)
 	{

@@ -16,7 +16,11 @@ public class PlayerTracker implements IPlayerTracker {
             d = entityData.getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
             if (!d.hasKey(SpecificInventory.MODID + "firstSpawn")) { //The tag must have been set by us, so we only need to check existence.
                 d.setBoolean(SpecificInventory.MODID + "firstSpawn", false);
-                CommandSI.doLoad(player);
+                if (SpecificInventory.freshInventory) {
+                    CommandSI.doLoad(player);
+                } else {
+                    CommandSI.doLoadWithoutReplace(player);
+                }
                 entityData.setCompoundTag(EntityPlayer.PERSISTED_NBT_TAG, d);
             }
         }

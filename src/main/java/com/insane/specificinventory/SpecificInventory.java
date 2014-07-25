@@ -40,6 +40,7 @@ public class SpecificInventory
     private ItemStack[] recipeArrayStack = new ItemStack[2];
 
     public static boolean canModify;
+    public static boolean freshInventory;
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -58,6 +59,7 @@ public class SpecificInventory
         Configuration config = new Configuration(configFile);
         config.load();
         canModify = config.get("canModify", "general", false, "Can modify starting inventory.").getBoolean(false);
+        freshInventory = config.get("replaceInventory","general",false, "true = replaces entire inventory. false = add items to inventory.").getBoolean(false);
         config.save();
 	}
 
