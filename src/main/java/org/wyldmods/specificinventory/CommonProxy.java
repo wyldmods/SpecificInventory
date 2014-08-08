@@ -1,4 +1,4 @@
-package com.insane.specificinventory;
+package org.wyldmods.specificinventory;
 
 /**
  * Created by Michael on 15/07/2014.

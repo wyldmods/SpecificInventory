@@ -1,6 +1,6 @@
-package com.insane.specificinventory.client;
+package org.wyldmods.specificinventory.client;
 
-import com.insane.specificinventory.CommonProxy;
+import org.wyldmods.specificinventory.CommonProxy;
 
 /**
  * Created by Michael on 15/07/2014.

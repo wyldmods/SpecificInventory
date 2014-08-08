@@ -1,4 +1,4 @@
-package com.insane.specificinventory;
+package org.wyldmods.specificinventory;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

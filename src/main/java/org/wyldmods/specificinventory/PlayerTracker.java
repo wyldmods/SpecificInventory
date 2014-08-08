@@ -1,4 +1,4 @@
-package com.insane.specificinventory;
+package org.wyldmods.specificinventory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
